@@ -1,15 +1,12 @@
 from langchain_huggingface import HuggingFaceEmbeddings
+from langchain_community.document_loaders import TextLoader
 from sklearn.metrics.pairwise import cosine_similarity
 
-embedding = HuggingFaceEmbeddings(model="sentence-transformers/all-MiniLM-L6-v2")
+loader = TextLoader('document.txt', encoding='utf-8')
 
-documnets = [
-    "Virat Kohli is an Indian cricketer known for his aggressive batting and leadership.",
-    "MS Dhoni is a former Indian captain famous for his calm demeanor and finishing skills.",
-    "Sachin Tendulkar, also known as the 'God of Cricket', holds many batting records.",
-    "Rohit Sharma is known for his elegant batting and record-breaking double centuries.",
-    "Jasprit Bumrah is an Indian fast bowler known for his unorthodox action and yorkers."
-]
+documents = loader.load()
+
+embedding = HuggingFaceEmbeddings(model="sentence-transformers/all-MiniLM-L6-v2")
 
 query = "Tell me about Virat Kohli"
 doc_embedding = embedding.embed_documents(documnets)
